@@ -1,0 +1,1436 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="cn">
+<meta name="viewport" content="width=device-width">
+<link rel="shortcut icon" href="favicon.ico">
+<title>Tron RobotZ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.26.1/ramda.min.js" integrity="sha256-43x9r7YRdZpZqTjDT5E0Vfrxn1ajIZLyYWtfAXsargA=" crossorigin="anonymous"></script>
+<script src="bootstrap.min.js"></script>
+<script src="tronweb.js"></script>
+<script src="abi.js"></script>
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Hanalei&display=swap" rel="stylesheet">
+<style>
+body {
+  background-color: rgb(0, 0, 25);
+  background: url(robotz/robotz1600.jpg) 50% 50% fixed;
+}
+.menu-right-top {
+  padding: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  color: #bbbb99;
+  z-index: 100;
+  position: relative;
+}
+.menu-right-top > a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  color: #ddddbb;
+}
+.menu-right-top > a:hover {
+  color: #ffffdd;
+  text-shadow: 3px 3px 7px #ffffdd, 0 0 5em rgb(255, 255, 170);
+  text-decoration: none;
+}
+.menu-left-top {
+  padding: 10px;
+}
+.num-group {
+  margin: 25px auto;
+  text-align: center;
+}
+.num {
+  padding: 25px 15px;
+  border-radius: 5px;
+  background-color: rgba(170, 115, 65, 0.3);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 24px;
+  color: rgb(255, 200, 150);
+  text-shadow: 0px 0px 7px #ffffdd, 0 0 5em rgb(255, 200, 150);
+}
+.font-less {
+  font-size: 12px;
+}
+
+.card {
+  box-shadow: 0 0 10px rgba(100, 100, 100, 0.5);
+  background-color: rgba(170, 115, 65, 0.2);
+  color: #dddddd;
+}
+.card-header {
+  background-color: rgba(170, 115, 65, 0.7);
+}
+.card-body: {
+  background-color: rgba(170, 115, 65, 0.7);
+}
+.card:hover {
+  box-shadow: 0 0 10px rgba(255, 200, 150, 0.7);
+}
+.card-building {
+  margin-top: 5px;
+}
+.card-building > .card-body {
+  padding: 10px;
+}
+.card-building > .card-header {
+  padding: 10px;
+  font-size: 14px;
+  overflow: hidden;
+  height: 35px;
+}
+.btn-success {
+  background-color: #c4c462 !important;
+  border-color: #c4c462;
+  background-image: linear-gradient(#cccc78, #c4c462 60%, #bebe53);
+  background-repeat: no-repeat;
+}
+.btn-success:hover {
+  background-image: linear-gradient(#939337, #9e9e3b 40%, #a6a63e) !important;
+  background-repeat: no-repeat;
+}
+.mono {
+  font-family: 'Share Tech Mono', monospace;
+}
+.modal-header {
+  background-color: rgb(120, 120, 100);
+}
+.modal-body {
+  background-color: rgb(120, 120, 100);
+  color: #dddddd;
+}
+.modal-footer {
+  background-color: rgb(120, 120, 100);
+}
+.office-title {
+  color: rgb(200, 180, 200);
+}
+
+.color-change1 {
+  animation: color-change1 2s infinite;
+  font-weight: bold;
+}
+
+.color-change2 {
+  animation: color-change2 2s infinite;
+  font-weight: bold;
+}
+
+.color-change3 {
+  animation: color-change3 2s infinite;
+  font-weight: bold;
+}
+
+.privateData {
+  display: none;
+}
+
+@keyframes shadow {
+from {box-shadow: 0 0 10px rgba(255, 255, 200, 0.7);}
+50% {box-shadow: 0 0 30px rgba(255, 255, 200, 0.7);}
+to {box-shadow: 0 0 10px rgba(255, 255, 200, 0.7);}
+}
+
+@keyframes color-change1 {
+  0% { color: rgb(170, 115, 65); }
+  20% { color: rgb(170, 115, 65); }
+  40% { color: rgb(150, 150, 150); }
+  60% { color: rgb(150, 150, 150); }
+  80% { color: rgb(150, 150, 150); }
+  100% { color: rgb(150, 150, 150); }
+}
+
+@keyframes color-change2 {
+  0% { color: rgb(150, 150, 150); }
+  20% { color: rgb(150, 150, 150); }
+  40% { color: rgb(170, 115, 65); }
+  60% { color: rgb(170, 115, 65); }
+  80% { color: rgb(150, 150, 150); }
+  100% { color: rgb(150, 150, 150); }
+}
+
+@keyframes color-change3 {
+  0% { color: rgb(150, 150, 150); }
+  20% { color: rgb(150, 150, 150); }
+  40% { color: rgb(150, 150, 150); }
+  60% { color: rgb(150, 150, 150); }
+  80% { color: rgb(170, 115, 65); }
+  100% { color: rgb(170, 115, 65); }
+}
+
+@keyframes comet {
+  from { opacity: 1.0; }
+  50% { opacity: 0.7; }
+  to { opacity: 1.0; }
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes robotLineAnimation {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(140px); }
+  100% { transform: translate(-300px, 140px); }
+}
+
+.wrap {
+  width: 100%;
+  height: 188px;
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  overflow: hidden;
+}
+.wrap:before, .wrap:after {
+  content: ""; 
+  position: absolute;
+}
+.wrap:before {
+  width: 40px;
+  height: 8px;
+  right: 100px;
+  background: #4D6530;
+  border-radius: 8px 8px 0px 0px;
+}
+.wrap:after {
+  width: 8px;
+  height: 40px;
+  right: 0px;
+  top: 100px;
+  background: #4D6530;
+  border-radius: 0px 8px 8px 0px;
+}
+.ribbon6 {
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  top: 30px;
+  right: -50px;
+  z-index: 2;
+  overflow: hidden;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border: 1px dashed;
+  box-shadow:0 0 0 3px #646402,  0px 21px 5px -18px rgba(0,0,0,0.6);
+  background: #949432;
+  text-align: center;
+  color: white;
+}
+@media (min-width: 500px) {
+  .ribbons-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .ribbon {
+    width: 48%;
+  }
+}
+
+.comet {
+  animation: comet 2s infinite linear;
+  position: relative;
+  z-index: -100;
+}
+
+.image-info {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 200, 0.7);
+}
+.building-price {
+  width: 80px;
+  background-color: black;
+  font-size: 12px;
+  color: #aaaaff;
+  margin: auto;
+  padding-top: 2px;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.cosmo-button {
+  margin: auto;
+  width: 250px;
+  background-color: black;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(170, 115, 65, 0.9);
+  padding: 5px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+}
+.cosmo-button:hover {
+  box-shadow: 0 0 50px rgba(170, 115, 65, 0.9);
+}
+</style>
+</head>
+<body>
+<div style="position:fixed;z-index:-1;left:0;top:0;right:0;bottom:0;background-color:rgba(0, 0, 0, 0.5)">&nbsp;</div>
+
+<div class="modal fade" id="cashbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">信息</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+                  <div>Buy Сlass 1 robot right now (cost 100,000 TRX) and get</div>
+          <div style="font-weight: bold; font-size: 24px">3000 TRX</div>
+          <div>cashback within 24 hours!</div>
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$('#cashbackModal').modal();
+</script>
+
+<div class="modal fade" id="tronlinkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">信息</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="tronlinkModalContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="faqModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">FAQ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                  <h3>投資安全嗎？</h3>
+          <p class="text-justify">
+            該項目基於區塊鏈TRON的智能合約，因此完全分散。所有其他玩家都可以看到每個玩家的所有動作。智能合約的源代碼是免費提供的，任何人都可以閱讀它。該項目將始終完全按照智能合約中的描述運行。項目的創建者和任何其他人都不能改變合同的邏輯。
+          </p>
+          <h3>如何與遊戲互動？</h3>
+          <p class="text-justify">
+            通過TRON網絡中的交易執行與遊戲的交互，因此，TronLink或TronPay的瀏覽器擴展或數學錢包移動應用程序就足夠了。
+          </p>
+          <h3>如何開始賺錢？</h3>
+          <p class="text-justify">
+            在此遊戲中，您可以通過三種方式獲利：購買機器人，吸引引薦和凍結令牌以獲取每日股息。要增加機器人的收入，您可以升級工廠。
+          </p>
+          <h3>如何產生收入？</h3>
+          <p class="text-justify">
+            收入每3秒累計一次，可立即提取。
+          </p>
+          <h3>如何獲得股息？</h3>
+          <p class="text-justify">
+            股息將每天自動支付。
+          </p>
+          <h3>還有問題嗎？</h3>
+          <p class="text-justify">
+            您可以在Telegram中的小組中詢問他們，項目的創建者或其參與者將很樂意回答您。
+          </p>
+              </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="upgradeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">升级</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                  <p class="text-justify">
+            要增加機器人的收入，您可以升級工廠。每個升級級別都會使每個機器人的利潤增加1％。升級時，所有應計利潤將以當前百分比自動轉移到錢包，此後百分比增加。總共有5個升級級別。
+          </p>
+                
+        <div class="card privateData">
+          <div class="card-body text-center">
+            <div>
+              我的水平: <span class="upgrades"></span> (+<span class="upgrades"></span>% / 月)
+            </div>
+            <div>
+              <span class="btn btn-warning btn-sm upgrade" style="cursor:pointer">升级</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="divsHistoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">股息支付歷史</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>我的分紅</h4>
+        <div id="mydivs"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="refsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">我的推薦</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>我的推薦</h4>
+        <div class="float-left text-info">地址</div>
+        <div class="float-right text-info">我的利潤</div>
+        <div class="clearfix"></div>
+        <div id="myrefs"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="float-right menu-right-top">
+  <a target="_blank" href="https://tronscan.org/#/contract/TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS/code">Tronscan</a>&nbsp;|&nbsp;
+  <a target="_blank" href="https://tronscan.org/#/token/1002113">代幣 DKT</a>&nbsp;|&nbsp;
+  <a target="_blank" href="https://tronwatch.market/trade/1002113-TRX">貿易 DKT</a>&nbsp;|&nbsp;
+  <a href="#" data-toggle="modal" data-target="#faqModal">FAQ</a>&nbsp;|&nbsp;
+  <a href="#" onclick="location.href='tg://resolve?domain=tronrobotz'">Telegram</a>
+  <a href="index-1.htm?lang=en"><img src="en.png"></a>
+  <a href="index-2.htm?lang=ru"><img src="ru.png"></a>
+  <a href="index-3.htm?lang=cn"><img src="cn.png"></a>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="text-center">
+        <div style="margin-top:10px" id="robotzLogoContainer">
+          <img src="robotz\tronrobots_500.png" class="img-fluid robotzLogo" style="max-height:300px;margin-bottom:10px;max-width:75%">
+          <img id="robotLineRobot" src="robotz\robot-anim.gif" style="display:none;position:absolute;z-index:-5">
+        </div>
+      </div>
+      <div style="margin-top:20px;font-size:16px;font-weight:bold">
+                  世界上第一個每日獎金的經濟遊戲！
+              </div>
+      
+              <div class="text-justify" style="font-size:12px">
+          歡迎來到經濟遊戲，您可以通過購買機器人賺取TRX！您在遊戲中的每次購買還將獲得DKT令牌！代幣將用於每天以及以後的項目中獲得股息。我們還有另一個不錯的功能-獎金，這是最後一個投資者兩個小時收到的玩家所收到的獎金。如果玩家收到獎金，獎金將再次開始累積。
+        </div>
+            
+      <div class="clearfix"></div>
+      
+      <div style="text-transform:uppercase;text-shadow:0px 0px 7px rgb(170, 115, 65), 0 0 5em rgb(170, 115, 65);font-size:20px;color:rgb(255, 200, 150);text-align:center">投資</div>
+      <div class="num-group">
+        <span class="num" id="num6">&nbsp;</span>
+        <span class="num" id="num5">&nbsp;</span>
+        <span class="num" id="num4">&nbsp;</span>
+        <span class="num" id="num3">&nbsp;</span>
+        <span class="num" id="num2">&nbsp;</span>
+        <span class="num" id="num1">&nbsp;</span>
+        <span class="num" id="num0">&nbsp;</span>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="card">
+        <div class="card-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">
+                <h3>我的工廠</h3>
+                <div class="privateData">
+                  我的水平: <span class="upgrades"></span> (+<span class="upgrades"></span>% / 月)
+                </div>
+                <div class="privateData">
+                  <span class="btn btn-warning btn-sm upgrade" style="cursor:pointer">升级</span>
+                </div>
+                
+                <div>
+                  <i class="fas fa-hand-point-right"></i>
+                  <small class="office-title">收入</small>
+                </div>
+                <div style="font-size:12px">
+                  <div class="text-justify">
+                                          在遊戲中，您可以通過購買機器人，推薦，凍結和出售代幣來賺取收入。除機器人收入外，所有收入都會自動提取。要從機器人獲得收入，請點擊下面的按鈕。
+                                        <div><small class="text-warning">請注意，您可以每3秒獲得一次利潤</small></div>
+                    <span class="btn btn-success btn-sm" style="cursor:pointer" id="getProfit">獲利</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <i class="fas fa-hand-point-right"></i>
+                  <small class="office-title">獎金基金</small>
+                </div>
+                <div style="font-size:12px">
+                  <div class="text-justify">
+                    要獲得獎金，您需要成為至少2400個街區（2小時）的最後投資者，之後您需要點擊<b>獲取獎金</b>。                  </div>
+                  
+                  <div class="btn btn-info btn-sm getPrizeFund" style="cursor:pointer">獲得獎金</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <i class="fas fa-hand-point-right"></i>
+                  <small class="office-title">介紹人</small>
+                </div>
+                <small>邀請人們到您的工廠（5％）:</small>
+                <div class="text-danger noref">您需要註冊或購買至少一個機器人才能吸引推薦</div>
+                <div class="btn btn-success register noref" style="cursor:pointer">寄存器</div>
+                <input class="withref form-control" id="node" readonly="" style="display:none" onclick="this.select()">
+                
+                <div class="btn btn-info btn-sm withref showRefs" style="display:none;cursor:pointer;margin-top:5px">我的推薦</div>
+                
+                <div>
+                  <i class="fas fa-hand-point-right"></i>
+                  <small class="office-title">令牌 DKT</small>
+                </div>
+                <div class="privateData">
+                  你有 <div class="float-right"><span class="tokenAmount mono">0</span> <span class="mono">DKT</span></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="privateData">
+                  被你凍結 <div class="float-right"><span class="frozenAmount mono">0</span> <span class="mono">DKT</span></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div>
+                  冷凍總數 <div class="float-right"><span class="frozenTotalAmount mono">0</span> <span class="mono">DKT</span></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="privateData">
+                  你的紅利 <div class="float-right"><span class="divsAmount mono">0</span> <span class="mono">TRX&nbsp;&nbsp;</span></div>
+                  <div class="clearfix"></div>
+                </div>
+                                <div class="clearfix"></div>
+                <div>
+                  <input class="form-control form-control-sm" id="freezeAmount" placeholder="凍結金額">
+                </div>
+                <div>
+                  <span class="btn btn-success btn-sm" style="cursor:pointer" id="freeze">凍結</span>
+                  <span class="btn btn-info btn-sm" style="cursor:pointer" id="unfreeze">解凍所有</span>
+                </div>
+                <div>
+                  <small class="text-warning">每天凍結你的代幣以獲得股息</small>
+                </div>
+                <span class="btn btn-info btn-sm privateData showDivsHistory" style="cursor:pointer">股息支付歷史</span>
+              </div>
+            </div>
+            <div class="row" style="margin-top:25px">
+              <div class="col-sm-12 text-center">
+                <div style="width:150px;margin:auto;background-color:black;color:white;font-size:10px;text-transform:uppercase;box-shadow: 0 -2px 5px rgba(170, 115, 65, 0.7);position:relative">股息支付</div>
+                
+                <div style="background-color:black;width:220px;margin:auto;border-radius:20px;box-shadow: 0 0 10px rgba(170, 115, 65, 0.7);position:relative">
+                  <div class="mono" style="font-size:24px;color:#333300">00 00:00:00</div>
+                  <div class="divsCounter mono" style="font-size:24px;color:rgb(255, 200, 150);text-shadow: 0px 0px 7px #ffffdd, 0 0 5em rgb(255, 200, 150);z-index:1;margin-top:-35px">-- --:--:--</div>
+                </div>
+                
+                <div style="width:150px;margin:auto;background-color:black;color:white;font-size:16px;text-transform:uppercase;box-shadow: 0 2px 5px rgba(170, 115, 65, 0.7);position:relative"><span class="divPool">...</span> TRX</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:10px">
+        <div class="card-body">
+          <div class="gameRun">
+            <div style="font-size:12px;color:white">最後投資者</div>
+            <div style="border-bottom:1px solid rgba(127, 127, 127, 0.5)"><span class="mono" id="lastInvestor"></span></div>
+            
+            <div style="font-size:12px;color:white">最近的投資</div>
+            <div><span class="mono" id="lastInvestmentAt"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center" style="margin-top:15px;margin-bottom:5px;font-size:12px;color:#ffffdd">當您購買機器人或升級工廠時，您會自動在錢包中收到累計利息</div>
+
+<div class="container">
+  <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(90, 90, 50, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot5.png" style="" data-name="robot5" data-title="8級" data-price="50" data-percent="95">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">8級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">47.5-50</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">5000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">95+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">95+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot5-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot5-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="50"><i class="fas fa-shopping-cart"></i> 50 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="50"><i class="fas fa-shopping-cart"></i> 50 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(100, 100, 58, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot6.png" style="" data-name="robot6" data-title="7級" data-price="100" data-percent="96">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">7級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">96-101</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">10000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">96+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">96+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot6-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot6-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="100"><i class="fas fa-shopping-cart"></i> 100 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="100"><i class="fas fa-shopping-cart"></i> 100 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(110, 110, 66, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot3.png" style="" data-name="robot3" data-title="6級" data-price="200" data-percent="97">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">6級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">194-204</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">20000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">97+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">97+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot3-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot3-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="200"><i class="fas fa-shopping-cart"></i> 200 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="200"><i class="fas fa-shopping-cart"></i> 200 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(120, 120, 74, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot2.png" style="" data-name="robot2" data-title="5級" data-price="500" data-percent="98">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">5級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">490-515</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">50000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">98+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">98+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot2-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot2-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="500"><i class="fas fa-shopping-cart"></i> 500 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="500"><i class="fas fa-shopping-cart"></i> 500 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(130, 130, 82, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot1.png" style="" data-name="robot1" data-title="4級" data-price="1000" data-percent="99">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">4級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">990-1040</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">100000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">99+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">99+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot1-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot1-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="1000"><i class="fas fa-shopping-cart"></i> 1000 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="1000"><i class="fas fa-shopping-cart"></i> 1000 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(140, 140, 90, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot4.png" style="" data-name="robot4" data-title="3級" data-price="5000" data-percent="100">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">3級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">5000-5250</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">500000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">100+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">100+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot4-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot4-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="5000"><i class="fas fa-shopping-cart"></i> 5000 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="5000"><i class="fas fa-shopping-cart"></i> 5000 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(150, 150, 98, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot8.png" style="" data-name="robot8" data-title="2級" data-price="10000" data-percent="101">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6">2級</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">10100-10600</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">1000000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">101+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">101+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot8-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot8-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="10000"><i class="fas fa-shopping-cart"></i> 10000 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="10000"><i class="fas fa-shopping-cart"></i> 10000 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card card-building" style="background:linear-gradient(0deg, rgba(160, 160, 106, 1.0) 80%, rgba(0, 0, 0, 0.5))">
+          <div class="card-body">
+            <div>
+              <img class="img-fluid image-info" src="robotz\robot7.png" style="" data-name="robot7" data-title="1級" data-price="100000" data-percent="102">
+              
+              <div class="ribbon">
+                <div class="wrap">
+                                      <span class="ribbon6" style="background: #cc3232">CASHBACK</span>
+                                  </div>
+              </div>
+              
+              <div class="text-justify">
+                                  每個月，此機器人都會為玩家帶來利潤<span class="buildingPercent">102000-107000</span> TRX。<br>購買此機器人時，玩家將獲得一個額外的<span class="buildingPrice2">10000000 </span> DKT令牌。
+                              </div>
+            </div>
+            
+            <div class="text-center d-sm-none d-block" style="font-size:16px;font-weight:bold;margin-left:5px;margin-top:5px">102+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            <div class="text-center d-none d-sm-block" style="font-size:20px;font-weight:bold;margin-left:5px;margin-top:5px">102+<span class="upgrades">0</span>% / 月 <a href="#" data-toggle="modal" data-target="#upgradeModal"><i class="fas fa-question-circle"></i></a></div>
+            
+            <div class="clearfix" style="margin-bottom:5px"></div>
+            <div class="float-left d-sm-none d-block">
+              <div style="width:28px;height:28px;border-radius:5px;background-color:#c4c462;font-size:16px;color:white;text-align:center;padding-top:2px"><span class="mono robot7-builds">0</span></div>
+            </div>
+            <div class="float-left d-none d-sm-block">
+              <div style="width:35px;height:48px;border-radius:5px;background-color:#c4c462;font-size:24px;color:white;text-align:center;padding-top:5px"><span class="mono robot7-builds">0</span></div>
+            </div>
+            <div class="float-right">
+              <span class="float-left btn btn-success btn-sm buyBuilding d-sm-none d-block" style="cursor:pointer" data-buy="100000"><i class="fas fa-shopping-cart"></i> 100000 TRX</span>
+              <span class="float-left btn btn-success buyBuilding d-none d-sm-block" style="cursor:pointer" data-buy="100000"><i class="fas fa-shopping-cart"></i> 100000 TRX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+</div>
+
+<div class="text-center text-danger" style="margin-top:50px;font-size:12px">只要合同餘額中有資金，就可以向玩家付款。 沒有人保證你在這場比賽中獲利。</div>
+
+<div style="height:100px">&nbsp;</div>
+
+<div style="position:fixed;bottom:0;width:100%;z-index:5;padding:5px;background-color:rgba(170, 115, 65, 0.3);text-align:center">
+  <div>
+    <div style="margin-left:-100px;margin-top:10px">
+      <div style="background-color:black;width:220px;margin:auto;border-radius:20px;box-shadow: 0 0 10px rgba(170, 115, 65, 0.7)">
+        <div class="mono" style="font-size:24px;color:#333300">00 00:00:00</div>
+        <div class="gameStartIn mono" style="font-size:24px;color:rgb(255, 200, 150);text-shadow: 0px 0px 7px #ffffdd, 0 0 5em rgb(255, 200, 150);z-index:1;margin-top:-35px">-- --:--:--</div>
+      </div>
+      <div class="gameWait" style="display:none;width:150px;margin:auto;background-color:black;color:white;font-size:10px;text-transform:uppercase;box-shadow: 0 2px 5px rgba(170, 115, 65, 0.7)">遊戲將開始</div>
+      <div class="gameRun" style="width:150px;margin:auto;background-color:black;color:white;font-size:10px;text-transform:uppercase;box-shadow: 0 2px 5px rgba(170, 115, 65, 0.7)">從開始的時間</div>
+    </div>
+    
+    <div style="margin-left:240px;margin-top:-52px">
+      <div style="background-color:black;width:80px;margin:auto;border-radius:20px;box-shadow: 0 0 10px rgba(170, 115, 65, 0.7)">
+        <div class="mono totalInvestors" style="font-size:24px;color:rgb(255, 200, 150);text-shadow: 0px 0px 7px #ffffdd, 0 0 5em rgb(255, 200, 150);z-index:1;margin-top:-35px">---</div>
+      </div>
+      <div style="width:50px;margin:auto;background-color:black;color:white;font-size:10px;text-transform:uppercase;box-shadow: 0 2px 5px rgba(170, 115, 65, 0.7)">用戶</div>
+    </div>
+  </div>
+  
+  <div>
+          <small class="gameWait text-danger">遊戲尚未開始，但您已經可以邀請推薦遊戲了！</small>
+      </div>
+  
+  <div class="clearfix"></div>
+</div>
+
+<div id="scrolltop" class="d-sm-none" style="position:fixed;bottom:120px;right:10px;width:50px;height:50px;border-radius:50px;background-color:#dddddd;text-align:center;font-size:24px;padding-top:5px;display:none" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<script>
+$('.robotzLogo').css('animation-name', 'rotation');
+$('.robotzLogo').css('animation-duration', '20s');
+$('.robotzLogo').css('animation-iteration-count', 'infinite');
+$('.robotzLogo').css('animation-timing-function', 'linear');
+
+function initRobotLine() {
+  window.setTimeout(function() {
+    $('#robotLineRobot').css('animation-name', '');
+    $('#robotLineRobot').css('animation-duration', '');
+    $('#robotLineRobot').css('animation-iteration-count', '');
+    $('#robotLineRobot').css('animation-timing-function', '');
+    
+    $('#robotLineRobot').offset({ left: $('#robotzLogoContainer').offset().left + $('#robotzLogoContainer').width() / 2 - 64, top: $('#robotzLogoContainer').offset().top + $('.robotzLogo').height() - 140 });
+    
+    $('#robotLineRobot').hide();
+    
+    window.setTimeout(function() {
+      $('#robotLineRobot').show();
+      
+      $('#robotLineRobot').css('animation-name', 'robotLineAnimation');
+      $('#robotLineRobot').css('animation-duration', '5s');
+      $('#robotLineRobot').css('animation-iteration-count', 'infinite');
+      $('#robotLineRobot').css('animation-timing-function', 'linear');
+    }, 500);
+  }, 1000);
+}
+initRobotLine();
+$(window).resize(initRobotLine);
+
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 0) {
+    $('#scrolltop').fadeIn();
+  } else {
+    $('#scrolltop').fadeOut();
+  }
+});
+
+if ($(window).scrollTop() > 0) {
+  $('#scrolltop').fadeIn();
+}
+
+var FEE_LIMIT = 1e7;
+
+var myAddress;
+var blockNumber = 0;
+var lastInvestedAt = 0;
+var prevLastInvestedAtBlock;
+var gameStarted = false;
+var gameStartIn = 0;
+var prevGameStartIn;
+var totalInvested = 0;
+var totalFrozenAmount = 0;
+var contractAddress = 'TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS';
+var totalPaid = 16355328481;
+var twxRate = 0.033;
+var divsCounter = -17099;
+var tronWebExternal = new TronWeb({
+  fullHost: 'https://api.trongrid.io',
+  privateKey: 'a5bacbca1ecfa6d6bd981da5bfc507eba084187a9e389399daa51c46bc5f999f',
+});
+var contractExt = tronWebExternal.contract(abi, contractAddress);
+var upgradeLevels = [ 50000, 100000, 300000, 1000000, 10000000 ];
+var nextUpgradePrice = 0;
+
+function loadDivs() {
+  if (!myAddress) {
+    return;
+  }
+  
+  $.get('/?divs=' + myAddress, function(res) {
+    res = JSON.parse(res);
+    $('#mydivs').html(res.map(function(r) { return '<div class="float-left">' + r.date + ' <a target="_blank" href="https://tronscan.org/#/transaction/' + r.hash + '">🔗</a></div><div class="float-right mono">' + r.amount + ' ' + r.token + '</div><div class="clearfix"></div>'; }).join(''));
+  });
+}
+
+function loadRefs() {
+  if (!myAddress) {
+    return;
+  }
+  
+  $.get('/?refs=' + myAddress, function(res) {
+    res = JSON.parse(res);
+    $('#myrefs').html(res.map(function(r) { return '<div class="float-left">' + r.user.slice(0, 8) + '... <a target="_blank" href="https://tronscan.org/#/address/' + r.user + '">🔗</a></div><div class="float-right mono">' + (r.invested / 20) + ' TRX</div><div class="clearfix"></div>'; }).join(''));
+  });
+}
+
+$('.showDivsHistory').click(function() {
+  loadDivs();
+  $('#divsHistoryModal').modal();
+});
+
+$('.showRefs').click(function() {
+  loadRefs();
+  $('#refsModal').modal();
+});
+
+window.setInterval(function() {
+  tronWebExternal.trx.getCurrentBlock(function(err, res) {
+    blockNumber = res.block_header.raw_data.number;
+    
+    if (blockNumber === prevGameStartIn) {
+      return
+    }
+    
+    prevGameStartIn = blockNumber;
+    
+    var diff = (blockNumber - 14732604) * 3 >> 0;
+    if (diff > 0) {
+      $('.gameRun').show();
+      $('.gameWait').hide();
+      gameStarted = true;
+    } else {
+      $('.gameRun').hide();
+      $('.gameWait').show();
+      gameStarted = false;
+    }
+    
+    gameStartIn = Math.abs(diff);
+  });
+  
+  contractExt.totalInvestors().call().then(function(res) {
+    $('.totalInvestors').html(res.toString());
+  });
+  
+  contractExt.totalInvested().call().then(function(res) {
+    totalInvested = res.toNumber();
+    var totalString = tronWebExternal.fromSun(res.toString());
+    $('#trxInvested').html(totalString);
+    
+    if (totalInvested) {
+      for (var i = 0; i < 7; i++) {
+        $('#num' + i).html(totalString[totalString.length - i - 1] || '&nbsp;');
+      }
+    } else {
+      for (var i = 0; i < 7; i++) {
+        $('#num' + i).html('0');
+      }
+    }
+    
+    $('.divPool').html(tronWebExternal.fromSun(totalInvested / 40 - totalPaid) >> 1);
+  });
+  
+  contractExt.prizeFund().call().then(function(res) {
+    $('.getPrizeFund').html('獲得獎金 ' + (tronWebExternal.fromSun(res.toString()) / 2) + ' TRX');
+  });
+  
+  contractExt.lastInvestor().call().then(function(res) {
+    res = tronWebExternal.address.fromHex(res);
+    $('#lastInvestor').html(res === myAddress ? '<span class="text-info">YOU</span>' : res);
+  });
+  
+  contractExt.lastInvestedAt().call().then(function(res) {
+    if (res.toNumber() === prevLastInvestedAtBlock) {
+      return
+    }
+    
+    prevLastInvestedAtBlock = res.toNumber();
+    
+    lastInvestedAt = (blockNumber - res.toNumber()) * 3;
+    if (lastInvestedAt < 0) {
+      lastInvestedAt = 0;
+    }
+  });
+  
+  contractExt.totalFrozen().call().then(function(res) {
+    totalFrozenAmount = res.toNumber();
+    $('.frozenTotalAmount').html((totalFrozenAmount / 1000000).toFixed(2));
+  });
+  
+  if (window.tronWeb && window.tronWeb.defaultAddress && window.tronWeb.defaultAddress.base58) {
+    myAddress = window.tronWeb.defaultAddress.base58;
+    
+    $('#node').val('https://robotz.fun/?node=' + myAddress);
+    
+    $('.privateData').show();
+    
+          contractExt.objects(myAddress, 50000000).call().then(function(res) {
+        $('.robot5-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 100000000).call().then(function(res) {
+        $('.robot6-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 200000000).call().then(function(res) {
+        $('.robot3-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 500000000).call().then(function(res) {
+        $('.robot2-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 1000000000).call().then(function(res) {
+        $('.robot1-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 5000000000).call().then(function(res) {
+        $('.robot4-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 10000000000).call().then(function(res) {
+        $('.robot8-builds').html(res.toString());
+      });
+          contractExt.objects(myAddress, 100000000000).call().then(function(res) {
+        $('.robot7-builds').html(res.toString());
+      });
+        
+    contractExt.getAllProfitAmount(myAddress).call().then(function(res) {
+      $('#getProfit').html('獲利 ' + (res.toString() === '0' ? '' : (res.toString() / 1000000).toFixed(6) + ' TRX'));
+      if (res.toString() === '0') {
+        $('#getProfit').addClass('disabled');
+      } else {
+        $('#getProfit').removeClass('disabled');
+      }
+    });
+    
+    contractExt.allowGetPrizeFund(myAddress).call().then(function(res) {
+      if (res) {
+        $('.getPrizeFund').removeClass('disabled');
+      } else {
+        $('.getPrizeFund').addClass('disabled');
+      }
+    });
+    
+    contractExt.registered(myAddress).call().then(function(res) {
+      if (res) {
+        $('.noref').hide();
+        $('.withref').show();
+      } else {
+        $('.noref').show();
+        $('.withref').hide();
+      }
+    });
+    
+    contractExt.frozen(myAddress).call().then(function(res) {
+      $('.frozenAmount').html((res.toNumber() / 1000000).toFixed(2));
+      if (totalFrozenAmount > 0) {
+        $('.divsAmount').html((res.toNumber() * (totalInvested / 40 - totalPaid) / totalFrozenAmount / 1000000 / 2).toFixed(4));
+        // $('.divsAmountTWX').html((res.toNumber() * (totalInvested / 40 - totalPaid) / totalFrozenAmount / 1000000 / twxRate).toFixed(4));
+      }
+    });
+    
+    contractExt.upgrades(myAddress).call().then(function(res) {
+      if (!upgradeLevels[res.toNumber()]) {
+        $('.upgrade').hide();
+        $('.upgrades').html(res.toString());
+        nextUpgradePrice = 0;
+      } else {
+        $('.upgrade').show();
+        $('.upgrade').html('升级 (' + upgradeLevels[res.toNumber()] + ' DKT)');
+        $('.upgrades').html(res.toString());
+        nextUpgradePrice = upgradeLevels[res.toNumber()];
+      }
+    });
+    
+    tronWeb.trx.getUnconfirmedAccount(myAddress)
+      .then(function(res) {
+        var xio10Asset = res.assetV2 && R.find(R.propEq('key', '1002113'))(res.assetV2);
+        $('.tokenAmount').html(xio10Asset && (xio10Asset.value / 1000000).toFixed(2) || '0.00');
+      });
+  } else {
+    $('.privateData').hide();
+  }
+}, 1000);
+
+$('.buyBuilding').click(function() {
+  if (!gameStarted) {
+    $('#tronlinkModalContent').html('The game has not started yet! However, you can already invite referrals to the game!');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.buy('TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS').send({
+    shouldPollResponse: false,
+    callValue: $(this).data('buy') * 1000000,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    })
+    .catch(function() {
+      alert('Not enough funds');
+    });
+});
+
+$('#getProfit').click(function() {
+  if (!gameStarted) {
+    $('#tronlinkModalContent').html('The game has not started yet! However, you can already invite referrals to the game!');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  if ($(this).hasClass('disabled')) {
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.getProfit().send({
+    shouldPollResponse: false,
+    callValue: 0,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    });
+});
+
+$('.upgrade').click(function() {
+  if (nextUpgradePrice) {
+    var contract = window.tronWeb.contract(abi, contractAddress);
+    
+    contract.upgrade('TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS').send({
+      shouldPollResponse: false,
+      tokenValue: nextUpgradePrice * 1000000,
+      tokenId: 1002113,
+      feeLimit: FEE_LIMIT
+    })
+      .then(function() {
+        
+      })
+      .catch(function(e) {
+        alert(e.message);
+      });
+  }
+});
+
+$('.getPrizeFund').click(function() {
+  if (!gameStarted) {
+    $('#tronlinkModalContent').html('The game has not started yet! However, you can already invite referrals to the game!');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  if ($(this).hasClass('disabled')) {
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.getPrizeFund().send({
+    shouldPollResponse: false,
+    callValue: 0,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    });
+});
+
+$('.register').click(function() {
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  if ($(this).hasClass('disabled')) {
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.register('TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS').send({
+    shouldPollResponse: false,
+    callValue: 0,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    });
+});
+
+$('#freeze').click(function() {
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  if ($(this).hasClass('disabled')) {
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.freeze('TJpQNEbXzsLFeZC1btM7zt7fHNqCpiSXvS').send({
+    shouldPollResponse: false,
+    tokenValue: ($('#freezeAmount').val() * 1000000).toFixed(0),
+    tokenId: 1002113,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    });
+});
+
+$('#unfreeze').click(function() {
+  if (!window.tronWeb) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  if (!window.tronWeb.defaultAddress.base58) {
+    $('#tronlinkModalContent').html('Please, install TronLink / TronPay and authorize.');
+    $('#tronlinkModal').modal();
+    return;
+  }
+  
+  if ($(this).hasClass('disabled')) {
+    return;
+  }
+  
+  var contract = window.tronWeb.contract(abi, contractAddress);
+  
+  contract.unfreeze().send({
+    shouldPollResponse: false,
+    callValue: 0,
+    feeLimit: FEE_LIMIT
+  })
+    .then(function() {
+      
+    });
+});
+
+window.setInterval(function() {
+  var diff = Date.now() / 1000 - 1561486273 >> 0;
+  var dd = diff / 86400 >> 0;
+  var hh = (diff - dd * 86400) / 3600 >> 0;
+  var mm = (diff - dd * 86400 - hh * 3600) / 60 >> 0;
+  var ss = diff - dd * 86400 - hh * 3600 - mm * 60;
+  
+  dd = dd < 10 ? '0' + dd : dd;
+  hh = hh < 10 ? '0' + hh : hh;
+  mm = mm < 10 ? '0' + mm : mm;
+  ss = ss < 10 ? '0' + ss : ss;
+  
+  $('#timeFromStart').html(dd + ' ' + hh + ':' + mm + ':' + ss);
+  
+  var dd = lastInvestedAt / 86400 >> 0;
+  var hh = (lastInvestedAt - dd * 86400) / 3600 >> 0;
+  var mm = (lastInvestedAt - dd * 86400 - hh * 3600) / 60 >> 0;
+  var ss = lastInvestedAt - dd * 86400 - hh * 3600 - mm * 60;
+  
+  dd = dd < 10 ? '0' + dd : dd;
+  hh = hh < 10 ? '0' + hh : hh;
+  mm = mm < 10 ? '0' + mm : mm;
+  ss = ss < 10 ? '0' + ss : ss;
+  
+  $('#lastInvestmentAt').html(dd + ' ' + hh + ':' + mm + ':' + ss);
+  
+  lastInvestedAt++;
+  
+  var dd = gameStartIn / 86400 >> 0;
+  var hh = (gameStartIn - dd * 86400) / 3600 >> 0;
+  var mm = (gameStartIn - dd * 86400 - hh * 3600) / 60 >> 0;
+  var ss = gameStartIn - dd * 86400 - hh * 3600 - mm * 60;
+  
+  dd = dd < 10 ? '0' + dd : dd;
+  hh = hh < 10 ? '0' + hh : hh;
+  mm = mm < 10 ? '0' + mm : mm;
+  ss = ss < 10 ? '0' + ss : ss;
+  
+  $('.gameStartIn').html(dd + ' ' + hh + ':' + mm + ':' + ss);
+  
+  gameStartIn += gameStarted ? 1 : -1;
+  if (gameStartIn < 0) {
+    gameStartIn = 0;
+  }
+  
+  divsCounter--;
+  if (divsCounter < 0) {
+    divsCounter += 86400;
+  }
+  
+  if (gameStarted) {
+    var dd = divsCounter / 86400 >> 0;
+    var hh = (divsCounter - dd * 86400) / 3600 >> 0;
+    var mm = (divsCounter - dd * 86400 - hh * 3600) / 60 >> 0;
+    var ss = divsCounter - dd * 86400 - hh * 3600 - mm * 60;
+    
+    dd = dd < 10 ? '0' + dd : dd;
+    hh = hh < 10 ? '0' + hh : hh;
+    mm = mm < 10 ? '0' + mm : mm;
+    ss = ss < 10 ? '0' + ss : ss;
+    
+    $('.divsCounter').html(dd + ' ' + hh + ':' + mm + ':' + ss);
+  } else {
+    $('.divsCounter').html('-- --:--:--');
+  }
+}, 1000);
+</script>
+</body>
+</html>
