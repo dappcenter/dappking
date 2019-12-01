@@ -21,6 +21,9 @@
             "pre-commit": "node ./scripts/pre-commit.js"
         }
     },
+     "engines": {
+    "node": "8.9.1"
+  },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "axios": "^0.19.0",
@@ -33,6 +36,9 @@
         "lodash": "^4.17.14",
         "semver": "^5.6.0",
         "validator": "^10.7.1"
+        "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "web3": "^1.0.0-beta.26"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
