@@ -90,4 +90,6 @@
     "homepage": "https://github.com/tron-us/tronweb",
     "license": "MIT",
     "repository": "https://github.com/tron-us/tronweb.git"
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-sample"
 }
