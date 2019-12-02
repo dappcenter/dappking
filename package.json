@@ -7,19 +7,7 @@
 "tronweb": "^2.0.30"
   },
   
-  "scripts": {
-    
-    "prepare": "npm run build",
-        "build": "npm run clean && webpack --config webpack.config.js --progress --colors",
-        "build:dev": "NODE_ENV=development npm run build",
-        "clean": "rimraf dist",
-        "newaccount": "node scripts/test-node.js && node test/helpers/newAccounts 50",
-        "test": "node scripts/test-node.js && node test/helpers/newAccounts 50 npm run-script newaccount && npx mocha 'test/**/*.test.js'",
-        "test-no-accounts": "node scripts/test-node.js && npx mocha 'test/**/*.test.js'",
-        "test:browser": "npm run-script newaccount && node scripts/test-browser.js && npx karma start --single-run --browsers ChromeHeadless",
-        "coverage": "npm run-script test:browser && npm run-script test",
-        "btest": "npm run build:dev && npm run test"
-  },
+ 
   "dependencies": {
     "ejs": "^2.5.6",
     "express": "^4.15.2"
